@@ -1,12 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { PORT, MONGODB_URI } = require('./config');
+const { PORT, MONGODB_URI, Vercel_URL, LOCAL_URL } = require('./config');
 const { z } = require('zod');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+const allowedOrigins = [Vercel_URL, LOCAL_URL];
+app.use(cors({  
+  origin: allowedOrigins,
+  methods: ['POST'],
+}));
 
 // Connect to MongoDB
 mongoose.connect(MONGODB_URI);
